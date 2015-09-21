@@ -1,0 +1,422 @@
+/*QUIMICA SUIZA*/
+SELECT
+  B.GrpID,
+  B.PdvIDClie,
+  B.PdvID,
+  B.RUC,
+  B.PdvNombre,
+  B.Direccion,
+  C.Departamento,
+  C.Provincia,
+  C.Distrito,
+  B.CategoriaPdv
+  FROM
+  (
+      SELECT * FROM per.MAESTRO_PDV
+      WHERE PdvIDClie <> PdvNombre
+      AND GrpID = '307'
+  ) B LEFT JOIN per.MAESTRO_UBIGEO C
+  ON B.UbigeoID=C.UbigeoID
+UNION ALL
+SELECT
+DISTINCT
+A.GrpID,
+CONVERT(VARCHAR,CONVERT(BIGINT,B.VBRK_KUNAG)),
+A.PdvID,
+B.KNA1_STCD1,
+NULL,
+NULL,
+NULL,
+NULL,
+NULL,
+A.CategoriaPdv
+FROM
+(
+SELECT *
+FROM per.MAESTRO_PDV
+WHERE PdvIDClie = PdvNombre
+      AND GrpID = '307'
+) A LEFT JOIN mkt.SELLOUT_QS_HISTW B
+  ON A.PdvIDClie=CONVERT(VARCHAR,CONVERT(BIGINT,B.VBRK_KUNAG));
+/*CONTINENTAL*/
+SELECT
+  B.GrpID,
+  B.PdvIDClie,
+  B.PdvID,
+  B.RUC,
+  B.PdvNombre,
+  B.Direccion,
+  C.Departamento,
+  C.Provincia,
+  C.Distrito,
+  B.CategoriaPdv,
+  B.Segmentacion_GL_I
+  FROM
+  (
+      SELECT * FROM per.MAESTRO_PDV
+      WHERE PdvIDClie <> PdvNombre
+      AND GrpID = '327'
+  ) B LEFT JOIN per.MAESTRO_UBIGEO C
+  ON B.UbigeoID=C.UbigeoID
+UNION ALL
+SELECT
+DISTINCT
+A.GrpID,
+CONVERT(VARCHAR,CONVERT(BIGINT,B.CODIGO)),
+A.PdvID,
+B.R_U_C_,
+B.NOMB_CLTE,
+B.DIRECCION,
+B.NOMB_DEPT,
+B.NOMB_PROV,
+B.NOMB_DIST,
+A.CategoriaPdv,
+B.DESCRIPCIO
+FROM
+(
+SELECT *
+FROM per.MAESTRO_PDV
+WHERE PdvIDClie = PdvNombre
+      AND GrpID = '327'
+) A LEFT JOIN mkt.SELLOUT_CONTI_HISTW B
+  ON A.PdvIDClie=CONVERT(VARCHAR,CONVERT(BIGINT,B.CODIGO));
+/*DIGALIMENTA*/
+SELECT
+  B.GrpID,
+  B.PdvIDClie,
+  B.PdvID,
+  B.RUC,
+  B.PdvNombre,
+  B.Direccion,
+  C.Departamento,
+  C.Provincia,
+  C.Distrito,
+  B.CategoriaPdv,
+  B.Segmentacion_GL_I
+  FROM
+  (
+      SELECT * FROM per.MAESTRO_PDV
+      WHERE PdvIDClie <> PdvNombre
+      AND GrpID = '337'
+  ) B LEFT JOIN per.MAESTRO_UBIGEO C
+  ON B.UbigeoID=C.UbigeoID
+UNION ALL
+SELECT
+DISTINCT
+A.GrpID,
+CONVERT(VARCHAR,CONVERT(BIGINT,B.COD_CLIENTE)) PdvIDClie,
+A.PdvID,
+B.DOC_IDENTIDAD,
+B.NOM_CLIENTE,
+B.DIRECCION,
+B.DEPARTAMENTO,
+B.PROVINCIA,
+B.DISTRITO,
+A.CategoriaPdv,
+B.TIPO_CLIENTE
+FROM
+(
+SELECT *
+FROM per.MAESTRO_PDV
+WHERE PdvIDClie = PdvNombre
+      AND GrpID = '337'
+) A LEFT JOIN mkt.SELLOUT_DIGA_HISTW B
+  ON A.PdvIDClie=CONVERT(VARCHAR,CONVERT(BIGINT,B.COD_CLIENTE));
+/*KEYMARK*/
+SELECT
+  B.GrpID,
+  B.PdvIDClie,
+  B.PdvID,
+  B.RUC,
+  B.PdvNombre,
+  B.Direccion,
+  C.Departamento,
+  C.Provincia,
+  C.Distrito,
+  B.CategoriaPdv,
+  B.Segmentacion_GL_I
+  FROM
+  (
+      SELECT * FROM per.MAESTRO_PDV
+      WHERE PdvIDClie <> PdvNombre
+      AND GrpID = '338'
+  ) B LEFT JOIN per.MAESTRO_UBIGEO C
+  ON B.UbigeoID=C.UbigeoID
+UNION ALL
+SELECT
+DISTINCT
+A.GrpID,
+COALESCE(CONVERT(VARCHAR,TRY_CONVERT(BIGINT,B.COD_CLIENTE)),B.COD_CLIENTE),
+A.PdvID,
+B.RUC,
+B.NOMCLIENTE,
+B.DIRECción,
+B.DEPT,
+B.PROV,
+B.DIST,
+A.CategoriaPdv,
+B.TIPCOMERCIAL
+FROM
+(
+SELECT *
+FROM per.MAESTRO_PDV
+WHERE PdvIDClie = PdvNombre
+      AND GrpID = '338'
+) A LEFT JOIN mkt.SELLOUT_KEYMARK_HISTW B
+  ON A.PdvIDClie=COALESCE(CONVERT(VARCHAR,TRY_CONVERT(BIGINT,B.COD_CLIENTE)),B.COD_CLIENTE);
+/*INKAFARMA*/
+SELECT
+  B.GrpID,
+  B.PdvIDClie,
+  B.PdvID,
+  --B.RUC,
+  B.PdvNombre,
+  B.Direccion,
+  C.Departamento,
+  C.Provincia,
+  C.Distrito,
+  B.CategoriaPdv
+  FROM
+  (
+      SELECT * FROM per.MAESTRO_PDV
+      WHERE PdvIDClie <> PdvNombre
+      AND GrpID = '309'
+  ) B LEFT JOIN per.MAESTRO_UBIGEO C
+  ON B.UbigeoID=C.UbigeoID
+UNION ALL
+SELECT
+DISTINCT
+A.GrpID,
+COALESCE(CONVERT(VARCHAR,TRY_CONVERT(BIGINT,B.COD_LOCAL)),B.COD_LOCAL),
+A.PdvID,
+--NULL,
+B.DESCRIPCION_LOCAL,
+NULL,
+NULL,
+NULL,
+NULL,
+A.CategoriaPdv
+FROM
+(
+SELECT *
+FROM per.MAESTRO_PDV
+WHERE PdvIDClie = PdvNombre
+      AND GrpID = '309'
+) A LEFT JOIN (
+            SELECT COD_LOCAL,DESCRIPCION_LOCAL FROM mkt.SELLOUT_IK_HISTW
+              UNION ALL
+            SELECT CONVERT(VARCHAR,1000+CONVERT(INT,CodLocal)),DescLocal FROM mkt.SELLOUT_IK_HISTA
+              UNION ALL
+            SELECT COD_LOCAL,DESCRIPCION_LOCAL FROM mkt.STOCK_IK_HISTW
+  ) B
+  ON A.PdvIDClie=COALESCE(CONVERT(VARCHAR,TRY_CONVERT(BIGINT,B.COD_LOCAL)),B.COD_LOCAL);
+/*ALBIS*/
+SELECT
+  B.GrpID,
+  B.PdvIDClie,
+  B.PdvID,
+  --B.RUC,
+  B.PdvNombre,
+  B.Direccion,
+  C.Departamento,
+  C.Provincia,
+  C.Distrito,
+  B.CategoriaPdv
+  FROM
+  (
+      SELECT * FROM per.MAESTRO_PDV
+      WHERE PdvIDClie <> PdvNombre
+      AND GrpID = '311'
+  ) B LEFT JOIN per.MAESTRO_UBIGEO C
+  ON B.UbigeoID=C.UbigeoID
+UNION ALL
+SELECT
+DISTINCT
+A.GrpID,
+COALESCE(CONVERT(VARCHAR,TRY_CONVERT(BIGINT,B.Cod_Cliente)),B.Cod_Cliente),
+A.PdvID,
+--NULL,
+B.Desc_Cliente,
+NULL,
+NULL,
+NULL,
+NULL,
+A.CategoriaPdv
+FROM
+(
+SELECT *
+FROM per.MAESTRO_PDV
+WHERE PdvIDClie = PdvNombre
+      AND GrpID = '311'
+) A LEFT JOIN (
+            SELECT Cod_Cliente,Desc_Cliente FROM mkt.SELLOUT_ALBIS_HISTW
+              UNION ALL
+            SELECT Cod_Cliente,Desc_Cliente FROM mkt.STOCK_ALBIS_HISTW
+  ) B
+  ON A.PdvIDClie=COALESCE(CONVERT(VARCHAR,TRY_CONVERT(BIGINT,B.Cod_Cliente)),B.Cod_Cliente);
+/*SUPESA*/
+SELECT
+  B.GrpID,
+  B.PdvIDClie,
+  B.PdvID,
+  --B.RUC,
+  B.PdvNombre,
+  B.Direccion,
+  C.Departamento,
+  C.Provincia,
+  C.Distrito,
+  B.CategoriaPdv
+  FROM
+  (
+      SELECT * FROM per.MAESTRO_PDV
+      WHERE PdvIDClie <> PdvNombre
+      AND GrpID = '308'
+  ) B LEFT JOIN per.MAESTRO_UBIGEO C
+  ON B.UbigeoID=C.UbigeoID
+UNION ALL
+SELECT
+DISTINCT
+A.GrpID,
+COALESCE(CONVERT(VARCHAR,TRY_CONVERT(BIGINT,B.DESCRIPCION_LOCAL)),B.COD_LOCAL),
+A.PdvID,
+--NULL,
+B.DESCRIPCION_LOCAL,
+NULL,
+NULL,
+NULL,
+NULL,
+A.CategoriaPdv
+FROM
+(
+SELECT *
+FROM per.MAESTRO_PDV
+WHERE PdvIDClie = PdvNombre
+      AND GrpID = '308'
+) A LEFT JOIN (
+            SELECT COD_LOCAL,DESCRIPCION_LOCAL FROM mkt.SELLOUT_SPP_HISTW
+              UNION ALL
+            SELECT COD_LOCAL,DESCRIPCION_LOCAL FROM mkt.STOCK_SPP_HISTW
+  ) B
+  ON A.PdvIDClie=COALESCE(CONVERT(VARCHAR,TRY_CONVERT(BIGINT,B.COD_LOCAL)),B.COD_LOCAL);
+/*CENCOSUD*/
+SELECT
+  B.GrpID,
+  B.PdvIDClie,
+  B.PdvID,
+  --B.RUC,
+  B.PdvNombre,
+  B.Direccion,
+  B.Departamento,
+  B.Provincia,
+  B.Distrito,
+  B.CategoriaPdv
+FROM per.MAESTRO_PDV B
+WHERE PdvIDClie <> PdvNombre
+      AND GrpID = '328'
+UNION ALL
+SELECT
+DISTINCT
+A.GrpID,
+COALESCE(CONVERT(VARCHAR,TRY_CONVERT(BIGINT,B.DESCRIPCION_LOCAL)),B.COD_LOCAL),
+A.PdvID,
+--NULL,
+B.DESCRIPCION_LOCAL,
+NULL,
+NULL,
+NULL,
+NULL,
+A.CategoriaPdv
+FROM
+(
+SELECT *
+FROM per.MAESTRO_PDV
+WHERE PdvIDClie = PdvNombre
+      AND GrpID = '328'
+) A LEFT JOIN (
+            SELECT COD_LOCAL,DESCRIPCION_LOCAL FROM mkt.SELLOUT_CENCO_HISTW
+              UNION ALL
+            SELECT COD_LOCAL,DESCRIPCION_LOCAL FROM mkt.STOCK_CENCO_HISTW
+  ) B
+  ON A.PdvIDClie=COALESCE(CONVERT(VARCHAR,TRY_CONVERT(BIGINT,B.COD_LOCAL)),B.COD_LOCAL);
+/*TOTTUS*/
+SELECT
+  B.GrpID,
+  B.PdvIDClie,
+  B.PdvID,
+  --B.RUC,
+  B.PdvNombre,
+  B.Direccion,
+  B.Departamento,
+  B.Provincia,
+  B.Distrito,
+  B.CategoriaPdv
+FROM per.MAESTRO_PDV B
+WHERE PdvIDClie <> PdvNombre
+      AND GrpID = '312'
+UNION ALL
+SELECT
+DISTINCT
+A.GrpID,
+COALESCE(CONVERT(VARCHAR,TRY_CONVERT(BIGINT,B.DESC_PDV)),B.COD_PDV),
+A.PdvID,
+--NULL,
+B.DESC_PDV,
+NULL,
+NULL,
+NULL,
+NULL,
+A.CategoriaPdv
+FROM
+(
+SELECT *
+FROM per.MAESTRO_PDV
+WHERE PdvIDClie = PdvNombre
+      AND GrpID = '312'
+) A LEFT JOIN (
+            SELECT COD_PDV,DESC_PDV FROM mkt.SELLOUT_TOTTUS_HISTW
+              --UNION ALL
+            --SELECT COD_LOCAL,DESCRIPCION_LOCAL FROM mkt.STOCK_TOTTUS_HISTW
+  ) B
+  ON A.PdvIDClie=COALESCE(CONVERT(VARCHAR,TRY_CONVERT(BIGINT,B.COD_PDV)),B.COD_PDV);
+
+
+/*QUIMIZA*/
+SELECT
+  B.GrpID,
+  B.PdvIDClie,
+  B.PdvID,
+  B.RUC,
+  B.PdvNombre,
+  B.Direccion,
+  C.Departamento,
+  C.Provincia,
+  C.Distrito,
+  B.CategoriaPdv
+  FROM
+  (
+      SELECT * FROM per.MAESTRO_PDV
+      WHERE PdvIDClie <> PdvNombre
+      AND GrpID = '313'
+  ) B LEFT JOIN per.MAESTRO_UBIGEO C
+  ON B.UbigeoID=C.UbigeoID
+UNION ALL
+SELECT
+DISTINCT
+A.GrpID,
+CONVERT(VARCHAR,CONVERT(BIGINT,B.VBRK_KUNAG)),
+A.PdvID,
+B.KNA1_STCD1,
+NULL,
+NULL,
+NULL,
+NULL,
+NULL,
+A.CategoriaPdv
+FROM
+(
+SELECT *
+FROM per.MAESTRO_PDV
+WHERE PdvIDClie = PdvNombre
+      AND GrpID = '313'
+) A LEFT JOIN mkt.SELLOUT_QZ_HISTW B
+  ON A.PdvIDClie=CONVERT(VARCHAR,CONVERT(BIGINT,B.VBRK_KUNAG));

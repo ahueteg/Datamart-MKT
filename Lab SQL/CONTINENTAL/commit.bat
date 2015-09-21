@@ -1,0 +1,2 @@
+copy "C:\Disco D\Datamart Ventas\Lab SQL\CONTINENTAL\update_cn_so.sql" "C:\Disco D\Datamart Ventas\Scripts .sql\update_cn_so.sql" /Y
+copy "C:\Disco D\Datamart Ventas\Lab SQL\CONTINENTAL\update_cn_st.sql" "C:\Disco D\Datamart Ventas\Scripts .sql\update_cn_st.sql" /Y

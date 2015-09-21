@@ -1,0 +1,2 @@
+copy "C:\Disco D\Datamart Ventas\Lab SQL\DIGALIMENTA\update_dg_so.sql" "C:\Disco D\Datamart Ventas\Scripts .sql\update_dg_so.sql" /Y
+copy "C:\Disco D\Datamart Ventas\Lab SQL\DIGALIMENTA\update_dg_st.sql" "C:\Disco D\Datamart Ventas\Scripts .sql\update_dg_st.sql" /Y

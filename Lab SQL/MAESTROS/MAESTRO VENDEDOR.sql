@@ -1,0 +1,56 @@
+
+/*MAESTTRO VENDEDOR*/
+
+SELECT * FROM mkt.maestro_vendedorx;
+
+DROP SEQUENCE  per.seq_vendedorid;
+
+CREATE SEQUENCE per.seq_vendedorid as int
+MINVALUE 100000
+NO CYCLE
+
+DROP TABLE [per].MAESTRO_VENDEDOR;
+CREATE TABLE [per].MAESTRO_VENDEDOR(
+	VendedorID [VARCHAR](6) PRIMARY KEY,
+	VendedorIDClie [varchar](5) NULL,
+	DescVendedor [varchar](50) NULL
+) ON [PRIMARY]
+
+insert into [per].MAESTRO_VENDEDOR
+SELECT
+NEXT VALUE FOR per.seq_vendedorid OVER(ORDER BY [COD_VENDEDOR]),
+a.*
+FROM [mkt].[maestro_vendedorx] a
+
+SELECT * FROM per.MAESTRO_VENDEDOR
+
+insert into per.[maestro_vendedor]
+SELECT
+NEXT VALUE FOR per.seq_vendedorid OVER(ORDER BY COD_VEND),
+COD_VEND,
+COD_VEND
+FROM
+(
+SELECT DISTINCT COD_VEND FROM MKT.SO_QS_SUM a
+LEFT JOIN per.[maestro_vendedor] B
+ON A.COD_VEND=B.vendedoridclie
+WHERE B.VENDEDORID IS NULL
+) A
+
+/*agregacion de grpid*/
+
+ALTER TABLE [per].MAESTRO_VENDEDOR
+ADD GrpID VARCHAR(3) NOT NULL DEFAULT('000')
+
+SELECT * FROM [per].MAESTRO_VENDEDOR
+
+update [per].MAESTRO_VENDEDOR
+set grpid='307'
+
+
+ALTER TABLE [per].MAESTRO_VENDEDOR
+ADD CONSTRAINT FK_VEN_CLI FOREIGN KEY ([GrpID])
+REFERENCES per.MAESTRO_CLIENTE([GrpID]);
+
+
+ALTER TABLE per.MAESTRO_VENDEDOR ALTER COLUMN VendedorIDClie VARCHAR(7)

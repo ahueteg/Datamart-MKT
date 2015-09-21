@@ -1,0 +1,2 @@
+copy "C:\Disco D\Datamart Ventas\Lab SQL\TOTTUS\update_tt_so.sql" "C:\Disco D\Datamart Ventas\Scripts .sql\update_tt_so.sql" /Y
+copy "C:\Disco D\Datamart Ventas\Lab SQL\TOTTUS\update_tt_st.sql" "C:\Disco D\Datamart Ventas\Scripts .sql\update_tt_st.sql" /Y

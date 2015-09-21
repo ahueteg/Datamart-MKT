@@ -1,0 +1,42 @@
+SELECT B.GrpID,C.GrpNombre,A.VBRP_CHARG LOTE,B.PdvIDClie,A.CANTIDAD,A.NETO,B.PdvNombre,B.Direccion,B.Distrito,B.Departamento,B.Provincia FROM
+  (
+    SELECT
+      VBRP_CHARG,
+      VBRK_KUNAG,
+      SUM(VBRP_FKIMG) CANTIDAD,
+      SUM(ZVALNETO_SF_QS) NETO
+    FROM mkt.SELLOUT_QS_HISTW
+    WHERE VBRP_CHARG
+          IN ('CA438',
+              'CB354',
+              'K4L74PN'
+          )
+    GROUP BY
+      VBRP_CHARG,
+      VBRK_KUNAG
+  ) A
+LEFT JOIN PER.MAESTRO_PDV B
+  ON CONVERT(VARCHAR,CONVERT(BIGINT,A.VBRK_KUNAG))=B.PdvIDClie AND B.GrpID='307'
+LEFT JOIN PER.MAESTRO_CLIENTE C
+    ON B.GrpID=C.GrpID
+UNION ALL
+SELECT B.GrpID,C.GrpNombre,A.LOTE_PRV LOTE,B.PdvIDClie,A.CANTIDAD,A.NETO,B.PdvNombre,B.Direccion,B.Distrito,B.Departamento,B.Provincia FROM
+  (
+    SELECT
+      LOTE_PRV,
+      CODIGO,
+      SUM(CANTIDAD) CANTIDAD,
+      SUM(NETO) NETO
+    FROM mkt.SELLOUT_CONTI_HISTW
+    WHERE LOTE_PRV
+          IN ('CA438',
+              'CB354',
+              'K4L74PN'
+          )
+    GROUP BY LOTE_PRV,
+      CODIGO
+  ) A
+LEFT JOIN PER.MAESTRO_PDV B
+  ON CONVERT(VARCHAR,CONVERT(BIGINT,A.CODIGO))=B.PdvIDClie AND B.GrpID='327'
+LEFT JOIN PER.MAESTRO_CLIENTE C
+    ON B.GrpID=C.GrpID

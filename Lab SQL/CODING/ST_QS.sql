@@ -1,0 +1,89 @@
+
+SELECT COUNT(DISTINCT fec_proceso) FROM  mkt.STOCK_QS_HIST_3;
+
+
+SELECT 
+B.GRUPO_ARTICULO,
+B.Codigo_SAP,
+B.COD_PROV,
+B.NOMPROD,
+B.CD_CENTRO,
+B.CD_ALMACEN,
+B.Stock_Especial,
+B.Num_Stock_Especial,
+B.LOTE,
+B.CANT_01,
+B.CANT_02,
+B.CANT_03,
+B.CANT_04,
+B.UNIDAD_MEDIDA,
+B.FEC_VCMTO_LOTE,
+B.AÒO,
+B.SEMANA,
+C.FECHA
+into 
+mkt.stock_2013
+FROM 
+(
+SELECT a.*,convert(int,substring(fec_proceso,1,4)) AÒO,DENSE_RANK()over(ORDER BY FEC_PROCESO) SEMANA FROM mkt.STOCK_QS_HIST a
+) B
+INNER JOIN 
+(
+SELECT * FROM 
+[mkt].[maestro_tiempo] 
+WHERE 
+Dia_Semana=7
+)
+C
+ON B.AÒO=C.AÒo_GL AND B.SEMANA=C.Semana_GL
+
+
+
+
+
+
+DROP TABLE  mkt.STOCK_QS_HIST 
+
+SELECT * 
+INTO 
+mkt.STOCK_QS_HIST 
+FROM 
+(
+SELECT * FROM mkt.stock_2013
+UNION ALL
+SELECT * FROM mkt.stock_2014
+UNION ALL 
+SELECT * FROM mkt.stock_2015
+) B
+
+
+
+SELECT COLUMN_NAME AS NombreCampo, * FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'STOCK_QS_HIST'--tabla de la que se quiere listar los campos
+ORDER BY ordinal_position
+
+
+
+
+
+SELECT  
+[GRUPO_ARTICULO]
+,[Codigo_SAP]
+      ,[COD_PROV]
+      ,[NOMPROD]
+      ,[CD_CENTRO]
+      ,[CD_ALMACEN]
+      ,[Stock_Especial]
+      ,[Num_Stock_Especial]
+      ,[LOTE]
+      ,CASE WHEN len([CANT_01])=12 THEN CAST(SUBSTRING([CANT_01],2,11) AS DECIMAL(12,3))/-1000 ELSE CAST([CANT_01] AS DECIMAL(12,3))/1000 END [CANT_01]
+      ,CASE WHEN len([CANT_02])=12 THEN CAST(SUBSTRING([CANT_02],2,11) AS DECIMAL(12,3))/-1000 ELSE CAST([CANT_02] AS DECIMAL(12,3))/1000 END [CANT_02]
+      ,CASE WHEN len([CANT_03])=12 THEN CAST(SUBSTRING([CANT_03],2,11) AS DECIMAL(12,3))/-1000 ELSE CAST([CANT_03] AS DECIMAL(12,3))/1000 END [CANT_03]
+      ,CASE WHEN len([CANT_04])=12 THEN CAST(SUBSTRING([CANT_04],2,11) AS DECIMAL(12,3))/-1000 ELSE CAST([CANT_04] AS DECIMAL(12,3))/1000 END [CANT_04]
+      ,[UNIDAD_MEDIDA]
+      ,[FEC_VCMTO_LOTE]
+      ,AÒO
+	  ,SEMANA
+	  ,[FECHA]
+	  INTO [mkt].[STOCK_QS_HISTW]
+FROM [genomma].[mkt].[STOCK_QS_HIST]

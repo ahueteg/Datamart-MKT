@@ -1,0 +1,6 @@
+/*MAESTRO AÒOSEMANA*/
+
+SELECT DISTINCT AÒoSemana_GL,AÒo_GL,Semana_GL INTO per.MAESTRO_AÒOSEMANA_GL FROM [mkt].[maestro_tiempo]
+
+ALTER TABLE per.MAESTRO_AÒOSEMANA_GL ALTER COLUMN AÒoSemana_GL VARCHAR(6) NOT NULL
+alter table per.MAESTRO_AÒOSEMANA_GL add primary key (AÒoSemana_GL)

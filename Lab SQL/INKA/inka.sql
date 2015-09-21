@@ -1,0 +1,159 @@
+
+insert into [mkt].[sellout_inka]
+SELECT * FROM [mkt].[sellout_inka_2014]
+
+SELECT * into [mkt].[stock_inkax] FROM [mkt].[stock_inka]
+
+insert into [mkt].[stock_inka]
+SELECT * FROM [mkt].[stock_inka_2014]
+
+
+DROP TABLE [mkt].[sellout_inka_2014]
+DROP TABLE [mkt].[stock_inka_2014]
+
+
+
+
+
+SELECT * FROM [mkt].[sellout_inka]
+
+DROP TABLE mkt.SELLOUT_IK_HISTW
+SELECT CONCAT(SUBSTRING([PERIODO],1,4),SUBSTRING(PERIODO,6,2),SUBSTRING(PERIODO,9,2)) Fecha
+      ,[COD_PRODUCTO]
+      ,[COD_PRODUCTO_PROVEEDOR]
+      ,[DESCRIPCION]
+      ,[MARCA]
+      ,[ESTADO_PROD]
+      ,[UMB]
+      ,[COD_LOCAL]
+      ,[COD_LOCAL_PROVEEDOR]
+      ,[DESCRIPCION_LOCAL]
+      ,[ESTADO_LOCAL]
+      ,[FORMATO]
+      ,[TIPO]
+      ,[VTA_PERIODO_UNID]
+      ,[COSTO_DE_VENTA_PERIODO_S]
+	  into mkt.SELLOUT_IK_HISTW
+  FROM [genomma].[mkt].[sellout_inka]
+
+
+DROP TABLE MKT.so_ik_1 ;
+SELECT * INTO MKT.so_ik_1 FROM mkt.SELLOUT_IK_HISTW
+WHERE COD_PRODUCTO<>'108244'
+
+
+DROP TABLE MKT.so_ik_2;
+SELECT 
+A.Fecha,
+A.COD_PRODUCTO,
+A.COD_LOCAL,
+SUM(A.VTA_PERIODO_UNID) VTA_PERIODO_UNID,
+SUM(A.COSTO_DE_VENTA_PERIODO_S) COSTO_DE_VENTA_PERIODO_S
+INTO MKT.so_ik_2
+FROM MKT.so_ik_1 A
+GROUP BY Fecha,COD_PRODUCTO,COD_LOCAL
+
+
+/* check producto*/
+
+insert into per.MAESTRO_PRODUCTO_FUENTE
+SELECT 
+COD_PRODUCTO,
+'309' GRPID,
+'0000' PROPSTID
+FROM
+(
+SELECT DISTINCT COD_PRODUCTO FROM MKT.so_ik_2 a
+LEFT JOIN [per].MAESTRO_PRODUCTO_FUENTE B
+ON A.COD_PRODUCTO=B.PROIDCLIE AND B.GrpID='309'
+WHERE B.PROPSTID IS NULL 
+) A;
+
+/* check TIEMPO*/
+
+/* check pdv*/
+insert into [per].maestro_pdv
+SELECT 
+NEXT VALUE FOR per.seq_PDVid OVER(ORDER BY [COD_LOCAL]),
+	[COD_LOCAL],
+	[COD_LOCAL],
+	[COD_LOCAL],
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	'309'
+FROM 
+(
+SELECT DISTINCT [COD_LOCAL]  FROM MKT.so_ik_2 A
+LEFT JOIN [per].maestro_pdv PD
+ON [COD_LOCAL]=PD.PdvIDClie
+WHERE PDVID IS NULL 
+) A;
+
+SELECT * FROM per.MAESTRO_PDV
+/*CHECK PRECIO*/
+
+insert into [per].MAESTRO_PRODUCTO_PRECIO
+SELECT 
+NEXT VALUE FOR [per].[seq_precioid] OVER(ORDER BY [GrpID],[ProPstID],AÒoSemana_GL),
+A.*
+FROM 
+(
+SELECT 
+'309' GRPID,PROPSTID,AÒoSemana_GL,0 PRECIO FROM
+(
+SELECT Q.PROPSTID,Q.AÒoSemana_GL FROM
+(
+SELECT DISTINCT B.PROPSTID,T.AÒoSemana_GL FROM
+mkt.so_ik_2 A
+LEFT JOIN per.MAESTRO_PRODUCTO_FUENTE B
+ON A.COD_PRODUCTO=B.PROIDCLIE
+LEFT JOIN per.MAESTRO_TIEMPO T
+ON A.FECHA=T.Fecha
+) Q LEFT JOIN per.MAESTRO_PRODUCTO_PRECIO H
+ON H.GrpID='309' AND H.AÒOSEMANA_GL=Q.AÒoSemana_GL AND H.ProPstID=Q.PROPSTID
+WHERE H.PrecioLista IS NULL 
+) P
+) A;
+
+
+DROP TABLE per.SELLOUT_IK;
+SELECT 
+A.Fecha,
+NULL [CadenaID],
+NULL [OficinaID],
+NULL [GrupoTratID],
+NULL [VendedorID],
+G.ProPstID,
+PD.PdvID,
+H.PrecioID,
+A.VTA_PERIODO_UNID UnidDesp,
+A.COSTO_DE_VENTA_PERIODO_S MontoDespCliente,
+A.VTA_PERIODO_UNID*H.PRECIOLISTA MontoDesp,
+T.AÒoSemana_GL
+into per.SELLOUT_IK
+FROM [mkt].so_ik_2 A
+LEFT JOIN per.maestro_producto_fuente G
+ON G.[GrpID]='309' AND A.COD_PRODUCTO=G.PROIDCLIE
+LEFT JOIN per.maestro_pdv PD
+ON A.COD_LOCAL=PD.PdvIDClie AND PD.GrpID='309'
+LEFT JOIN per.[maestro_tiempo] T
+ON A.Fecha=T.Fecha
+LEFT JOIN per.[maestro_producto_precio] H
+ON H.GrpID='309' AND H.AÒOSEMANA_GL=T.AÒoSemana_GL AND H.ProPstID=G.PROPSTID
+
+
+SELECT * FROM per.SELLOUT_IK
+
+
+
+
+
+
+
+

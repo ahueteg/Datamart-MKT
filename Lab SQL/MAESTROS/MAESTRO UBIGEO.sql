@@ -1,0 +1,26 @@
+SELECT *
+INTO per.MAESTRO_UBIGEO
+FROM mkt.maestro_ubigeox
+
+SELECT
+  UbigeoID,
+  Departamento,
+  Provincia,
+  Distrito
+FROM per.MAESTRO_UBIGEO
+
+ALTER TABLE genomma.per.MAESTRO_UBIGEO ALTER COLUMN UbigeoID VARCHAR(6);
+ALTER TABLE genomma.per.MAESTRO_UBIGEO ADD CONSTRAINT MAESTRO_UBIGEO_UbigeoID_default DEFAULT '000000' FOR UbigeoID;
+ALTER TABLE genomma.per.MAESTRO_UBIGEO ALTER COLUMN UbigeoID VARCHAR(6) NOT NULL;
+ALTER TABLE genomma.per.MAESTRO_UBIGEO ADD PRIMARY KEY (UbigeoID);
+
+
+
+
+
+
+
+
+
+
+

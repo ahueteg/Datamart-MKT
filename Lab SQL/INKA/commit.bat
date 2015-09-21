@@ -1,0 +1,2 @@
+copy "C:\Disco D\Datamart Ventas\Lab SQL\INKA\update_ik_so.sql" "C:\Disco D\Datamart Ventas\Scripts .sql\update_ik_so.sql" /Y
+copy "C:\Disco D\Datamart Ventas\Lab SQL\INKA\update_ik_st.sql" "C:\Disco D\Datamart Ventas\Scripts .sql\update_ik_st.sql" /Y

@@ -1,0 +1,59 @@
+
+
+SELECT B.GrpNombre,MontoDespCliente FROM
+	(
+		SELECT
+			GrpID,
+			sum(MontoDespCliente) MontoDespCliente
+		FROM per.GLP_SELLOUT
+		WHERE substring(Fecha, 1, 6) = 201505
+		GROUP BY GrpID
+	) A LEFT JOIN
+	PER.MAESTRO_CLIENTE B ON A.GrpID=B.GrpID
+
+
+SELECT
+	Canal,
+	GrpID,
+	GrpNombre,
+	MAX_FECHA,
+	MAX_SEMANA,
+	HOY_FECHA,
+	T.AñoSemana_GL HOY_SEMANA
+FROM
+	(
+		SELECT
+			C.Canal,
+			A.GrpID,
+			C.GrpNombre,
+			A.MAX_FECHA,
+			T.AñoSemana_GL                                     MAX_SEMANA,
+			CONVERT(VARCHAR, CONVERT(DATE, GETDATE()), 112) HOY_FECHA
+		FROM
+			(
+				SELECT
+					GrpID,
+					MAX(FECHA) MAX_FECHA
+				FROM per.GLP_SELLOUT
+				GROUP BY GrpID
+			) A LEFT JOIN per.MAESTRO_CLIENTE C
+				ON A.GrpID = C.GrpID
+			LEFT JOIN per.MAESTRO_TIEMPO T
+				ON A.MAX_FECHA = T.Fecha
+	) A LEFT JOIN per.MAESTRO_TIEMPO T
+				ON A.HOY_FECHA = T.Fecha;
+
+
+
+SELECT * FROM PER.MAESTRO_CLIENTE
+
+
+SELECT DISTINCT VBRK_KUNAG FROM mkt.SELLOUT_QZ_HISTW
+
+
+SELECT * FROM mkt.SELLOUT_QZ_HISTW
+WHERE COD_VEND like '%0000%'
+
+
+SELECT max(Fecha) FROM per.GLP_SELLOUT
+WHERE GrpID='313'

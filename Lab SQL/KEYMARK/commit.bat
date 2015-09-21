@@ -1,0 +1,2 @@
+copy "C:\Disco D\Datamart Ventas\Lab SQL\KEYMARK\update_km_so.sql" "C:\Disco D\Datamart Ventas\Scripts .sql\update_km_so.sql" /Y
+copy "C:\Disco D\Datamart Ventas\Lab SQL\KEYMARK\update_km_st.sql" "C:\Disco D\Datamart Ventas\Scripts .sql\update_km_st.sql" /Y
