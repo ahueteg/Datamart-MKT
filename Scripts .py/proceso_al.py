@@ -47,7 +47,7 @@ def replace_ktr(ktr,path):
 dir_ktr=r'C:\Disco D\Datamart Ventas\Scripts .ktr\\'
 dir_bat=r'C:\Disco D\Datamart Ventas\Scripts .bat\\'
 
-fecha=20150913
+fecha=20150920
 tiempo=get_time(fecha)
 file_so='{0}{1}\\Semana {2}\\{3}_{4}_{5}_Arcangel_SellOut.txt'
 file_st='{0}{1}\\Semana {2}\\{3}_{4}_{5}_Arcangel_Inventario.txt'

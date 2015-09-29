@@ -15,7 +15,7 @@ MERGE INTO PER.MAESTRO_PRODUCTO_PRESENTACION AS TGT
           StatusLanzamiento,
           [Master Pack]
         FROM OPENROWSET('Microsoft.ACE.OLEDB.15.0',
-     'Excel 12.0 Xml;HDR=YES;IMEX=1;Database=\\perfile01\INFORMACION COMERCIAL - PERU\Perú\Maestros\Maestros Base\Maestro Producto.xlsx',
+     'Excel 12.0 Xml;HDR=YES;IMEX=1;Database=\\perfile01\INFORMACION COMERCIAL - PERU\Perú\Maestros\Maestros Base\Maestro Producto_2.xlsx',
      'SELECT * FROM [Producto$]')
       WHERE Propstid IS NOT NULL
   ) AS SRC

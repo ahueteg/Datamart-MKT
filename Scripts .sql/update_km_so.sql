@@ -35,7 +35,7 @@ cast(null as varchar(4)) [OficinaIDClie],
 cast(null as varchar(4)) [GrupoTratIDClie],
 cast(A.COD_VENDEDOR as varchar(7)) [VendedorIDClie],
 cast(A.COD_SUPERVISOR as varchar(8)) [SupervisorIDClie],
-cast(convert(bigint,A.COD_PRODUCTO)  as varchar(12)) [ProIDClie],
+coalesce(cast(try_convert(bigint,A.COD_PRODUCTO)  as varchar(12)),A.COD_PRODUCTO) [ProIDClie],
 cast(COALESCE(CONVERT(VARCHAR,TRY_CONVERT(BIGINT,A.COD_CLIENTE)),A.COD_CLIENTE) as varchar(11)) [PdvIDClie],
 cast(A.CANTIDAD as decimal(18,6)) [UnidDesp],
 cast(A.VENTA_NETA as decimal(18,6)) [MontoDespCliente]

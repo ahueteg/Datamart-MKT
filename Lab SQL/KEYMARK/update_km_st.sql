@@ -14,8 +14,8 @@ SELECT
   LOTE,
   COD_PRODUCTO,
   NOMPRODUCTO,
-  STOCK_FISICO,
-  STOCK_TRASLADO
+  CASE WHEN coalesce(cast(try_convert(bigint,A.COD_PRODUCTO)  as varchar(12)),A.COD_PRODUCTO) in ('8233','8234') THEN A.STOCK_FISICO/20 else A.STOCK_FISICO END STOCK_FISICO,
+  CASE WHEN coalesce(cast(try_convert(bigint,A.COD_PRODUCTO)  as varchar(12)),A.COD_PRODUCTO) in ('8233','8234') THEN A.STOCK_TRASLADO/20 else A.STOCK_TRASLADO END STOCK_TRASLADO
 FROM mkt.stock_km_day A;
 
 
@@ -25,7 +25,7 @@ SELECT
 cast(A.FECHA as varchar(8)) [Fecha],
 '338' [GrpID],
 cast(A.COD_SUCURSAL as varchar(4))[CadenaIDClie],
-cast(convert(int,A.COD_PRODUCTO)  as varchar(12)) [ProIDClie],
+coalesce(cast(try_convert(bigint,A.COD_PRODUCTO)  as varchar(12)),A.COD_PRODUCTO) [ProIDClie],
 cast(NULL as varchar(11)) [PdvIDClie],
 cast(NULL as decimal(18,6)) [UnidExist],
 cast(A.STOCK_FISICO as decimal(18,6)) [UnidCedis],
@@ -38,9 +38,9 @@ FROM (
         LOTE,
         COD_PRODUCTO,
         NOMPRODUCTO,
-        STOCK_FISICO,
-        STOCK_TRASLADO
-      FROM mkt.stock_km_day A
+        CASE WHEN coalesce(cast(try_convert(bigint,A.COD_PRODUCTO)  as varchar(12)),A.COD_PRODUCTO) in ('8233','8234') THEN A.STOCK_FISICO/20 else A.STOCK_FISICO END STOCK_FISICO,
+				CASE WHEN coalesce(cast(try_convert(bigint,A.COD_PRODUCTO)  as varchar(12)),A.COD_PRODUCTO) in ('8233','8234') THEN A.STOCK_TRASLADO/20 else A.STOCK_TRASLADO END STOCK_TRASLADO
+			FROM mkt.stock_km_day A
      )A;
 
 /*VALIDACIONES*/

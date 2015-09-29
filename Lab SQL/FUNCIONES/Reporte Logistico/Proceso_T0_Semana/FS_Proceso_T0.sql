@@ -149,3 +149,132 @@ FROM
   ) A
 ) A
 ) A;
+
+DROP TABLE mkt.FS_Info_8_Semanas_01;
+SELECT
+  GrupoID,
+  PdvID,
+  ProPstID,
+  ProIDClie ProPstIDClie,
+  AñoSemana_GL,
+  UnidDesp,
+  MontoDesp,
+  MontoDespPvp,
+  UnidExist,
+  MontoExist,
+  UnidCedis,
+  MontoCedis,
+  Mix,
+  Activo,
+  PromUnidDesp4,
+  PromUnidDesp8,
+  PromMontoDesp4,
+  Pdv_Agotado_Mix,
+  Pdv_PreAgotado_Mix,
+  Pdv_Agotado,
+  Afect_Agotado_Mix_Unid,
+  Afect_Agotado_Mix_Monto,
+  Afect_PreAgotado_Mix_Unid,
+  Afect_PreAgotado_Mix_Monto,
+  Max_AñoSemana_GL,
+  CAST(CASE WHEN Activo=1 and Mix=0 and CountUnidDesp4xTipoPDV_Dist>0 then SumPromUnidDesp4xTipoPDV_Dist/CountUnidDesp4xTipoPDV_Dist else 0 end AS DECIMAL(11,2)) Afect_Activo_No_Mix_Dist_Unid,
+  CAST(CASE WHEN Activo=1 and Mix=0 and CountMontoDesp4xTipoPDV_Dist>0 then SumPromMontoDesp4xTipoPDV_Dist/CountMontoDesp4xTipoPDV_Dist else 0 end AS DECIMAL(11,2)) Afect_Activo_No_Mix_Dist_Monto,
+  CAST(CASE WHEN Activo=1 and Mix=0 and CountUnidDesp4xTipoPDV_Dept>0 then SumPromUnidDesp4xTipoPDV_Dept/CountUnidDesp4xTipoPDV_Dept else 0 end AS DECIMAL(11,2)) Afect_Activo_No_Mix_Dept_Unid,
+  CAST(CASE WHEN Activo=1 and Mix=0 and CountMontoDesp4xTipoPDV_Dept>0 then SumPromMontoDesp4xTipoPDV_Dept/CountMontoDesp4xTipoPDV_Dept else 0 end AS DECIMAL(11,2)) Afect_Activo_No_Mix_Dept_Monto,
+  CAST(CASE WHEN Activo=1 and Mix=0 and CountUnidDesp4xTipoPDV_Reg>0 then SumPromUnidDesp4xTipoPDV_Reg/CountUnidDesp4xTipoPDV_Reg else 0 end AS DECIMAL(11,2)) Afect_Activo_No_Mix_Reg_Unid,
+  CAST(CASE WHEN Activo=1 and Mix=0 and CountMontoDesp4xTipoPDV_Reg>0 then SumPromMontoDesp4xTipoPDV_Reg/CountMontoDesp4xTipoPDV_Reg else 0 end AS DECIMAL(11,2)) Afect_Activo_No_Mix_Reg_Monto
+  INTO mkt.FS_Info_8_Semanas_01
+FROM
+  (
+    SELECT
+      A.GrupoID,
+      A.PdvID,
+      A.ProPstID,
+      A.ProIDClie,
+      A.AñoSemana_GL,
+      A.UnidDesp,
+      A.MontoDesp,
+      A.MontoDespPvp,
+      A.UnidExist,
+      A.MontoExist,
+      A.UnidCedis,
+      A.MontoCedis,
+      A.Mix,
+      CAST(CASE WHEN b.StatusPdv = 'INACTIVO'
+        THEN 0
+      ELSE 1 END AS BIT) Activo,
+      A.PromUnidDesp4,
+      A.PromUnidDesp8,
+      A.PromMontoDesp4,
+      A.Pdv_Agotado_Mix,
+      A.Pdv_PreAgotado_Mix,
+      A.Pdv_Agotado,
+      A.Afect_Agotado_Mix_Unid,
+      A.Afect_Agotado_Mix_Monto,
+      A.Afect_PreAgotado_Mix_Unid,
+      A.Afect_PreAgotado_Mix_Monto,
+      A.Max_AñoSemana_GL,
+      CAST(SUM(CASE WHEN A.PromUnidDesp4 > 0
+        THEN A.PromUnidDesp4
+          ELSE 0 END)
+      OVER (PARTITION BY B.CategoriaPdv, C.UbigeoID, ProPstID, AñoSemana_GL) AS DECIMAL (11,2)) SumPromUnidDesp4xTipoPDV_Dist,
+      SUM(CASE WHEN A.PromUnidDesp4 > 0
+        THEN 1
+          ELSE 0 END)
+      OVER (PARTITION BY B.CategoriaPdv, C.UbigeoID, ProPstID, AñoSemana_GL) CountUnidDesp4xTipoPDV_Dist,
+      CAST(SUM(CASE WHEN A.PromMontoDesp4 > 0
+        THEN A.PromMontoDesp4
+          ELSE 0 END)
+      OVER (PARTITION BY B.CategoriaPdv, C.UbigeoID, ProPstID, AñoSemana_GL) AS DECIMAL (11,2)) SumPromMontoDesp4xTipoPDV_Dist,
+      SUM(CASE WHEN A.PromMontoDesp4 > 0
+        THEN 1
+          ELSE 0 END)
+      OVER (PARTITION BY B.CategoriaPdv, C.UbigeoID, ProPstID, AñoSemana_GL) CountMontoDesp4xTipoPDV_Dist,
+      CAST(SUM(CASE WHEN A.PromUnidDesp4 > 0
+        THEN A.PromUnidDesp4
+          ELSE 0 END)
+      OVER (PARTITION BY B.CategoriaPdv, C.Departamento, ProPstID, AñoSemana_GL) AS DECIMAL (11,2)) SumPromUnidDesp4xTipoPDV_Dept,
+      SUM(CASE WHEN A.PromUnidDesp4 > 0
+        THEN 1
+          ELSE 0 END)
+      OVER (PARTITION BY B.CategoriaPdv, C.Departamento, ProPstID, AñoSemana_GL) CountUnidDesp4xTipoPDV_Dept,
+      CAST(SUM(CASE WHEN A.PromMontoDesp4 > 0
+        THEN A.PromMontoDesp4
+          ELSE 0 END)
+      OVER (PARTITION BY B.CategoriaPdv, C.Departamento, ProPstID, AñoSemana_GL) AS DECIMAL (11,2)) SumPromMontoDesp4xTipoPDV_Dept,
+      SUM(CASE WHEN A.PromMontoDesp4 > 0
+        THEN 1
+          ELSE 0 END)
+      OVER (PARTITION BY B.CategoriaPdv, C.Departamento, ProPstID, AñoSemana_GL) CountMontoDesp4xTipoPDV_Dept,
+      CAST(SUM(CASE WHEN A.PromUnidDesp4 > 0
+        THEN A.PromUnidDesp4
+          ELSE 0 END)
+      OVER (PARTITION BY B.CategoriaPdv, C.Region_III, ProPstID, AñoSemana_GL) AS DECIMAL (11,2)) SumPromUnidDesp4xTipoPDV_Reg,
+      SUM(CASE WHEN A.PromUnidDesp4 > 0
+        THEN 1
+          ELSE 0 END)
+      OVER (PARTITION BY B.CategoriaPdv, C.Region_III, ProPstID, AñoSemana_GL) CountUnidDesp4xTipoPDV_Reg,
+      CAST(SUM(CASE WHEN A.PromMontoDesp4 > 0
+        THEN A.PromMontoDesp4
+          ELSE 0 END)
+      OVER (PARTITION BY B.CategoriaPdv, C.Region_III, ProPstID, AñoSemana_GL) AS DECIMAL (11,2)) SumPromMontoDesp4xTipoPDV_Reg,
+      SUM(CASE WHEN A.PromMontoDesp4 > 0
+        THEN 1
+          ELSE 0 END)
+      OVER (PARTITION BY B.CategoriaPdv, C.Region_III, ProPstID, AñoSemana_GL) CountMontoDesp4xTipoPDV_Reg
+    FROM mkt.FS_Info_8_Semanas_00 A
+      LEFT JOIN PER.MAESTRO_PDV B
+        ON A.PdvID = B.PdvID AND A.GrupoID = B.GrpID
+      LEFT JOIN PER.MAESTRO_UBIGEO C
+        ON B.UbigeoID = C.UbigeoID
+  ) A;
+
+DELETE FROM  mkt.FS_InfoSemana_Hist
+WHERE AñoSemana_GL in (SELECT AñoSemana_GL
+            FROM vw.fn_ultimas_semanas('309',2));
+
+insert into mkt.FS_InfoSemana_Hist
+    SELECT *
+    FROM mkt.FS_Info_8_Semanas_01
+    WHERE AñoSemana_GL in (SELECT AñoSemana_GL
+            FROM vw.fn_ultimas_semanas('309',2));

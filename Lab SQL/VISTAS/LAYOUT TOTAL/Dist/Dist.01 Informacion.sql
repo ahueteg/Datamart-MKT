@@ -2,7 +2,7 @@ DROP VIEW vw.[Dist.01 Informacion];
 CREATE VIEW vw.[Dist.01 Informacion]
 AS
 SELECT
-substring(A.[Fecha],7,2)+'/'+SUBSTRING(A.fecha,5,2)+'/'+SUBSTRING(A.fecha,1,4) Fecha,
+CONVERT(DATE,substring(A.[Fecha],7,2)+'/'+SUBSTRING(A.fecha,5,2)+'/'+SUBSTRING(A.fecha,1,4),103) Fecha,
 substring(A.AÒoSemana_GL,1,4)+'-'+substring(A.AÒoSemana_GL,5,2) [AÒo-Semana],
 A.[AÒo-Mes],
 A.GrpID GrupoID,
@@ -233,7 +233,7 @@ DROP VIEW vw.[Dist.07 Tiempo];
 CREATE VIEW vw.[Dist.07 Tiempo]
 AS
 SELECT
-substring([Fecha],7,2)+'/'+SUBSTRING(fecha,5,2)+'/'+SUBSTRING(fecha,1,4) Fecha,
+CONVERT(DATE,substring([Fecha],7,2)+'/'+SUBSTRING(Fecha,5,2)+'/'+SUBSTRING(Fecha,1,4),103) Fecha,
 substring([AÒoSemana_GL],1,4)+'-'+substring([AÒoSemana_GL],5,2) [AÒo-Semana_GL],
 [AÒo_GL],
 [Semana_GL],
@@ -257,7 +257,7 @@ WHERE Fecha >=(
 DROP VIEW vw.[Dist.08 TiempoMes];
 CREATE VIEW vw.[Dist.08 TiempoMes] AS
 SELECT
-  AÒoMes,
+  [AÒo-Mes],
   AÒo,
   Mes,
   [AÒo.Mes],
@@ -267,7 +267,7 @@ SELECT
   MIN(AÒoMesID) OVER(PARTITION BY AÒo) YTDID
 FROM (
   SELECT
-    AÒoMes,
+    [AÒo-Mes],
     AÒo,
     Mes,
     [AÒo.Mes],
@@ -278,7 +278,7 @@ FROM (
       ORDER BY AÒO ASC, Mes ASC) AÒoMesID
   FROM (
          SELECT
-           CONVERT(VARCHAR, A.AÒo * 100 + A.Mes) AÒoMes,
+           concat(A.AÒo,'-',RIGHT('00'+ CAST(A.mes AS VARCHAR(2)), 2)) [AÒo-Mes],
            A.AÒo,
            A.Mes,
            A.[AÒo.Mes],

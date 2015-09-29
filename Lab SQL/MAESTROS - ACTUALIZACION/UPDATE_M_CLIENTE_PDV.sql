@@ -42,7 +42,7 @@ SET A.RUC=b.RUC,
           --Provincia,
           --Distrito
         FROM OPENROWSET('Microsoft.ACE.OLEDB.15.0',
-        'Excel 12.0 Xml;HDR=YES;IMEX=1;Database=\\perfile01\INFORMACION COMERCIAL - PERU\Perú\Maestros\Maestros Clientes\Dist_Quimica Suiza\S-38 Maestro Quimica Suiza.xlsx',
+        'Excel 12.0 Xml;HDR=YES;IMEX=1;Database=\\perfile01\INFORMACION COMERCIAL - PERU\Perú\Maestros\Maestros Clientes\Dist_Quimica Suiza\S-39 Maestro Quimica Suiza.xlsx',
         'SELECT * FROM [Maestro Pdv$]')
         WHERE GrupoID IS NOT NULL
       )B
@@ -91,7 +91,7 @@ SET A.RUC=b.RUC,
           --Provincia,
           --Distrito
         FROM OPENROWSET('Microsoft.ACE.OLEDB.15.0',
-        'Excel 12.0 Xml;HDR=YES;IMEX=1;Database=\\perfile01\INFORMACION COMERCIAL - PERU\Perú\Maestros\Maestros Clientes\Dist_Continental\S-38 Maestro Continental.xlsx',
+        'Excel 12.0 Xml;HDR=YES;IMEX=1;Database=\\perfile01\INFORMACION COMERCIAL - PERU\Perú\Maestros\Maestros Clientes\Dist_Continental\S-39 Maestro Continental.xlsx',
         'SELECT * FROM [Maestro Pdv$]')
         WHERE GrupoID IS NOT NULL
       )B
@@ -140,7 +140,7 @@ SET A.RUC=b.RUC,
           --Provincia,
           --Distrito
         FROM OPENROWSET('Microsoft.ACE.OLEDB.15.0',
-        'Excel 12.0 Xml;HDR=YES;IMEX=1;Database=\\perfile01\INFORMACION COMERCIAL - PERU\Perú\Maestros\Maestros Clientes\Dist_Digalimenta\S-38 Maestro Digalimenta.xlsx',
+        'Excel 12.0 Xml;HDR=YES;IMEX=1;Database=\\perfile01\INFORMACION COMERCIAL - PERU\Perú\Maestros\Maestros Clientes\Dist_Digalimenta\S-39 Maestro Digalimenta.xlsx',
         'SELECT * FROM [Maestro Pdv$]')
         WHERE GrupoID IS NOT NULL
       )B
@@ -189,7 +189,7 @@ SET A.RUC=b.RUC,
           --Provincia,
           --Distrito
         FROM OPENROWSET('Microsoft.ACE.OLEDB.15.0',
-        'Excel 12.0 Xml;HDR=YES;IMEX=1;Database=\\perfile01\INFORMACION COMERCIAL - PERU\Perú\Maestros\Maestros Clientes\Dist_KeyMark\S-38 Maestro KeyMark.xlsx',
+        'Excel 12.0 Xml;HDR=YES;IMEX=1;Database=\\perfile01\INFORMACION COMERCIAL - PERU\Perú\Maestros\Maestros Clientes\Dist_KeyMark\S-39 Maestro KeyMark.xlsx',
         'SELECT * FROM [Maestro Pdv$]')
         WHERE GrupoID IS NOT NULL
       )B
@@ -238,7 +238,7 @@ SET A.RUC=b.RUC,
           --Provincia,
           --Distrito
         FROM OPENROWSET('Microsoft.ACE.OLEDB.15.0',
-        'Excel 12.0 Xml;HDR=YES;IMEX=1;Database=\\perfile01\INFORMACION COMERCIAL - PERU\Perú\Maestros\Maestros Clientes\F&S_Inkafarma\S-38 Maestro Inkafarma.xlsx',
+        'Excel 12.0 Xml;HDR=YES;IMEX=1;Database=\\perfile01\INFORMACION COMERCIAL - PERU\Perú\Maestros\Maestros Clientes\F&S_Inkafarma\S-39 Maestro Inkafarma.xlsx',
         'SELECT * FROM [Maestro Pdv$]')
         WHERE GrupoID IS NOT NULL
       )B
@@ -290,7 +290,7 @@ SET A.RUC=b.RUC,
           --Provincia,
           --Distrito
         FROM OPENROWSET('Microsoft.ACE.OLEDB.15.0',
-        'Excel 12.0 Xml;HDR=YES;IMEX=1;Database=\\perfile01\INFORMACION COMERCIAL - PERU\Perú\Maestros\Maestros Clientes\F&S_Arcangel\S-38 Maestro Arcangel.xlsx',
+        'Excel 12.0 Xml;HDR=YES;IMEX=1;Database=\\perfile01\INFORMACION COMERCIAL - PERU\Perú\Maestros\Maestros Clientes\F&S_Arcangel\S-39 Maestro Arcangel.xlsx',
         'SELECT * FROM [Maestro Pdv$]')
         WHERE GrupoID IS NOT NULL
       )B
@@ -343,7 +343,7 @@ SET A.RUC=b.RUC,
           --Provincia,
           --Distrito
         FROM OPENROWSET('Microsoft.ACE.OLEDB.15.0',
-        'Excel 12.0 Xml;HDR=YES;IMEX=1;Database=\\perfile01\INFORMACION COMERCIAL - PERU\Perú\Maestros\Maestros Clientes\F&S_Supesa\S-38 Maestro Supermercados Peruanos.xlsx',
+        'Excel 12.0 Xml;HDR=YES;IMEX=1;Database=\\perfile01\INFORMACION COMERCIAL - PERU\Perú\Maestros\Maestros Clientes\F&S_Supesa\S-39 Maestro Supermercados Peruanos.xlsx',
         'SELECT * FROM [Maestro Pdv$]')
         WHERE GrupoID IS NOT NULL
       )B

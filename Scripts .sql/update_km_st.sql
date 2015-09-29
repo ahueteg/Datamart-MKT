@@ -25,7 +25,7 @@ SELECT
 cast(A.FECHA as varchar(8)) [Fecha],
 '338' [GrpID],
 cast(A.COD_SUCURSAL as varchar(4))[CadenaIDClie],
-cast(convert(int,A.COD_PRODUCTO)  as varchar(12)) [ProIDClie],
+coalesce(cast(try_convert(bigint,A.COD_PRODUCTO)  as varchar(12)),A.COD_PRODUCTO) [ProIDClie],
 cast(NULL as varchar(11)) [PdvIDClie],
 cast(NULL as decimal(18,6)) [UnidExist],
 cast(A.STOCK_FISICO as decimal(18,6)) [UnidCedis],

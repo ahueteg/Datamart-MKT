@@ -21,9 +21,9 @@ A.COD_VENDEDOR,
 A.NOMVENDEDOR,
 A.COD_PRODUCTO,
 A.NOMPRODUCTO,
-A.CANTIDAD,
+CASE WHEN coalesce(cast(try_convert(bigint,A.COD_PRODUCTO)  as varchar(12)),A.COD_PRODUCTO) in ('8233','8234') THEN A.CANTIDAD/20 else A.CANTIDAD END CANTIDAD,
 A.VENTA_NETA
-FROM mkt.sellout_km_day A
+FROM mkt.sellout_km_day A;
 
 DELETE FROM mkt.sellout_stage;
 INSERT INTO mkt.sellout_stage (Fecha, GrpID, CadenaIDClie, OficinaIDClie, GrupoTratIDClie, VendedorIDClie, SupervisorIDClie, ProIDClie, PdvIDClie, UnidDesp, MontoDespCliente)
@@ -35,7 +35,7 @@ cast(null as varchar(4)) [OficinaIDClie],
 cast(null as varchar(4)) [GrupoTratIDClie],
 cast(A.COD_VENDEDOR as varchar(7)) [VendedorIDClie],
 cast(A.COD_SUPERVISOR as varchar(8)) [SupervisorIDClie],
-cast(convert(bigint,A.COD_PRODUCTO)  as varchar(12)) [ProIDClie],
+coalesce(cast(try_convert(bigint,A.COD_PRODUCTO)  as varchar(12)),A.COD_PRODUCTO) [ProIDClie],
 cast(COALESCE(CONVERT(VARCHAR,TRY_CONVERT(BIGINT,A.COD_CLIENTE)),A.COD_CLIENTE) as varchar(11)) [PdvIDClie],
 cast(A.CANTIDAD as decimal(18,6)) [UnidDesp],
 cast(A.VENTA_NETA as decimal(18,6)) [MontoDespCliente]
@@ -58,7 +58,7 @@ FROM (
     A.NOMVENDEDOR,
     A.COD_PRODUCTO,
     A.NOMPRODUCTO,
-    A.CANTIDAD,
+		CASE WHEN coalesce(cast(try_convert(bigint,A.COD_PRODUCTO)  as varchar(12)),A.COD_PRODUCTO) in ('8233','8234') THEN A.CANTIDAD/20 else A.CANTIDAD END CANTIDAD,
     A.VENTA_NETA
   FROM mkt.sellout_km_day A
 ) A
